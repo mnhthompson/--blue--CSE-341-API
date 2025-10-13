@@ -1,0 +1,58 @@
+### Get all tasks
+GET http://localhost:8080/tasks
+
+### Get a task by ID (replace {id})
+GET http://localhost:8080/tasks/{id}
+
+### Create a task
+POST http://localhost:8080/tasks
+Content-Type: application/json
+
+{
+  "title": "Finish homework",
+  "description": "Math and Science tasks",
+  "completed": false
+}
+
+### Update a task by ID (replace {id})
+PUT http://localhost:8080/tasks/{id}
+Content-Type: application/json
+
+{
+  "title": "Finish homework updated",
+  "description": "Math, Science, and English tasks",
+  "completed": true
+}
+
+### Delete a task by ID (replace {id})
+DELETE http://localhost:8080/tasks/{id}
+
+// PRODUCTION Deploy
+### Get all tasks
+GET https://blue-cse-341-api.onrender.com/tasks
+
+### Get a task by ID (replace {id})
+GET https://blue-cse-341-api.onrender.com/tasks/{id}
+
+### Create a task
+POST https://blue-cse-341-api.onrender.com/tasks
+Content-Type: application/json
+
+{
+  "title": "Finish homework",
+  "description": "Math and Science tasks",
+  "completed": false
+}
+
+### Update a task by ID (replace {id})
+PUT https://blue-cse-341-api.onrender.com/tasks/{id}
+Content-Type: application/json
+
+{
+  "title": "Finish homework updated",
+  "description": "Math, Science, and English tasks",
+  "completed": true
+}
+
+### Delete a task by ID (replace {id})
+DELETE https://blue-cse-341-api.onrender.com/tasks/{id}
