@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Nutrional meet needs",
+    "description": "Eat pizza",
+    "completed": false
+  },
+  {
+    "title": "Grocery shopping",
+    "description": "Buy vegetables, fruits, and milk",
+    "completed": false
+  },
+  {
+    "title": "Read a book",
+    "description": "Read at least 50 pages of the book of mormon",
+    "completed": true
+  }
+]

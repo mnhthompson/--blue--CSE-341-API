@@ -1,8 +1,8 @@
 ### Get all tasks
 GET http://localhost:8080/tasks
 
-### Get a task by ID (replace {id})
-GET http://localhost:8080/tasks/{id}
+### Get a task by ID 
+GET http://localhost:8080/tasks/68ed22e52bb0c04f4b4cbe9a
 
 ### Create a task
 POST http://localhost:8080/tasks
@@ -31,8 +31,8 @@ DELETE http://localhost:8080/tasks/{id}
 ### Get all tasks
 GET https://blue-cse-341-api.onrender.com/tasks
 
-### Get a task by ID (replace {id})
-GET https://blue-cse-341-api.onrender.com/tasks/{id}
+### Get a task by ID 
+GET https://blue-cse-341-api.onrender.com/tasks/68ed22e52bb0c04f4b4cbe9a
 
 ### Create a task
 POST https://blue-cse-341-api.onrender.com/tasks
