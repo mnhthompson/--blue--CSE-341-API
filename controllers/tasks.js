@@ -34,7 +34,7 @@ const updateTask = async (req, res) => {
   const response = await mongodb
     .getDb()
     .collection('task')
-    .replaceOne({ _id: userId }, contact);
+    .replaceOne({ _id: userId }, task);
   console.log(response);
   if (response.modifiedCount > 0) {res.status(204).send();} 
   else {res.status(500).json(response.error || 'error while Updating the task.');}};
@@ -51,7 +51,7 @@ const createTask = async (req, res) => {
   const response = await mongodb
     .getDb()
     .collection('task')
-    .insertOne(contact);
+    .insertOne(task);
   if (response.acknowledged) {res.status(201).json(response);} 
   else {res.status(500).json(response.error || 'error while creating the task.');}};
 
