@@ -1,74 +1,73 @@
-const { getDb } = require('../db/connect');
+const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
-const getTasks = async (req, res) => {
-  try {
-    const db = getDb();
-    const tasks = await db.collection('tasks').find().toArray();
-    res.json(tasks);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+const getAll = async (req, res, next) => {
+  const result = await mongodb.getDb().collection('task').find();
+  result.toArray().then((lists) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(lists);
+  });
 };
 
-const getTaskById = async (req, res) => {
-  try {
-    const db = getDb();
-    const task = await db.collection('tasks').findOne({ _id: new ObjectId(req.params.id) });
-    if (!task) return res.status(404).json({ message: 'Task not found' });
-    res.json(task);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+const getSingle = async (req, res, next) => {
+  const userId = new ObjectId(req.params.id);
+  const result = await mongodb
+    .getDb()
+    .collection('task')
+    .find({ _id: userId });
+  result.toArray().then((lists) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(lists[0]);
+  });
 };
 
-const createTask = async (req, res) => {
-  try {
-    const db = getDb();
-    const result = await db.collection('tasks').insertOne({
+// Update
+const updateTask = async (req, res) => {
+  const userId = new ObjectId(req.params.id);
+    const task = {
       title: req.body.title,
       description: req.body.description || '',
       completed: req.body.completed || false,
       createdAt: new Date(),
       updatedAt: new Date()
-    });
-    res.status(201).json(result.ops[0]);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+    };
+  const response = await mongodb
+    .getDb()
+    .collection('task')
+    .replaceOne({ _id: userId }, contact);
+  console.log(response);
+  if (response.modifiedCount > 0) {res.status(204).send();} 
+  else {res.status(500).json(response.error || 'error while Updating the task.');}};
 
-const updateTask = async (req, res) => {
-  try {
-    const db = getDb();
-    const result = await db.collection('tasks').findOneAndUpdate(
-      { _id: new ObjectId(req.params.id) },
-      {
-        $set: {
-          title: req.body.title,
-          description: req.body.description,
-          completed: req.body.completed,
-          updatedAt: new Date()
-        }
-      },
-      { returnDocument: 'after' }
-    );
-    if (!result.value) return res.status(404).json({ message: 'Task not found' });
-    res.json(result.value);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+  // Create
+const createTask = async (req, res) => {
+    const task = {
+      title: req.body.title,
+      description: req.body.description || '',
+      completed: req.body.completed || false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+  const response = await mongodb
+    .getDb()
+    .collection('task')
+    .insertOne(contact);
+  if (response.acknowledged) {res.status(201).json(response);} 
+  else {res.status(500).json(response.error || 'error while creating the task.');}};
 
+
+  // Delete
 const deleteTask = async (req, res) => {
-  try {
-    const db = getDb();
-    const result = await db.collection('tasks').deleteOne({ _id: new ObjectId(req.params.id) });
-    if (result.deletedCount === 0) return res.status(404).json({ message: 'Task not found' });
-    res.json({ message: 'Task deleted' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+  const userId = new ObjectId(req.params.id);
+  const response = await mongodb
+    .getDb()
+    .collection('task')
+    .deleteOne({ _id: userId });
+  console.log(response);
+  if (response.deletedCount > 0) {res.status(204).send();} 
+  else {res.status(500).json(response.error || 'error while deleating the task.');}};
 
-module.exports = { getTasks, getTaskById, createTask, updateTask, deleteTask };
+
+
+
+module.exports = {getAll,getSingle,createTask,updateTask,deleteTask};
