@@ -1,6 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const { getDb, ObjectId } = require('./connect');
+const mongodb = require('./connect');
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -9,9 +9,7 @@ passport.use(new GoogleStrategy({
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
-      const db = getDb();
-
-      // Find user by Google ID
+      const db = mongodb.getDb();
       let user = await db.collection('users').findOne({ oauthId: profile.id });
 
       if (!user) {
@@ -19,33 +17,29 @@ passport.use(new GoogleStrategy({
         const newUser = {
           oauthId: profile.id,
           name: profile.displayName,
-          email: profile.emails?.[0]?.value || null,
+          email: profile.emails[0].value,
         };
         const result = await db.collection('users').insertOne(newUser);
-        user = await db.collection('users').findOne({ _id: result.insertedId });
+        user = result.ops[0];
       }
 
       done(null, user);
     } catch (err) {
-      console.error('Error in GoogleStrategy:', err);
-      done(err, null); // prevents server crash
+      done(err, null);
     }
   }
 ));
 
 passport.serializeUser((user, done) => {
-  done(null, user._id.toString()); // store string ID in session
+  done(null, user._id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const db = getDb();
-    const user = await db.collection('users').findOne({ _id: new ObjectId(id) });
+    const db = mongodb.getDb();
+    const user = await db.collection('users').findOne({ _id: new mongodb.ObjectId(id) });
     done(null, user);
   } catch (err) {
-    console.error('Error deserializing user:', err);
     done(err, null);
   }
 });
-
-module.exports = passport;
