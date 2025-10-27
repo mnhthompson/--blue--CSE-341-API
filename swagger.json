@@ -41,7 +41,21 @@
                 },
                 "completed": {
                   "example": false
-                }
+                },
+        "dueDate": {
+                  "example":"2025-11-05T23:59:00.000Z"},
+
+        "priority": {
+                  "example":"high"},
+        "tags": {
+                  "example":["math","science"]},
+        "assignedTo": {
+                  "example":"Marcus Thompson"},
+        "createdAt": {
+                  "example":"2025-10-27T08:00:00.000Z"},
+        "updatedAt": {
+                  "example":"2025-10-27T08:00:00.000Z"}
+
               }
             }
           }
@@ -102,7 +116,22 @@
                 },
                 "completed": {
                   "example": false
-                }
+                },
+           "dueDate": {
+                  "example":"2025-11-05T23:59:00.000Z"},
+
+        "priority": {
+                  "example":"high"},
+        "tags": {
+                  "example":["math","science"]},
+        "assignedTo": {
+                  "example":"Marcus Thompson"},
+        "createdAt": {
+                  "example":"2025-10-27T08:00:00.000Z"},
+        "updatedAt": {
+                  "example":"2025-10-27T08:00:00.000Z"}
+
+                
               }
             }
           }
@@ -138,9 +167,86 @@
           },
           "500": {
             "description": "Internal Server Error"
+          },
+        
+         "/users/": {
+      "get": {
+        "description": "Get all users",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": [
+                {
+                  "_id": "",
+                  "oauthId": "",
+                  "name": "Marcus Thompson",
+                  "email": "marcus@example.com"
+                  
+                }
+              ]
+            }
           }
         }
+      },
+      "post": {
+        "description": "Create a new user",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "oauthId": "",
+                "name": { "example": "Marcus Thompson" },
+                "email": { "example": "marcus@example.com" }
+      
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "User created" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+
+    "/users/{id}": {
+      "get": {
+        "description": "Get user by ID",
+        "produces": ["application/json"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "_id": "",
+                "oauthId": "",
+                "name": "Marcus Thompson",
+                "email": "marcus@example.com"
+              }
+            }
+          },
+          "404": { "description": "User not found" }},
+              
+          
+        "delete": {
+        "description": "Delete user by ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
+        "responses": {
+          "204": { "description": "User deleted" },
+          "404": { "description": "User not found" },
+          "500": { "description": "Internal Server Error" }
+        }
+       }
       }
     }
   }
-}
+      }}}}
+      

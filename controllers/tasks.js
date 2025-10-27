@@ -28,7 +28,10 @@ const updateTask = async (req, res) => {
       title: req.body.title,
       description: req.body.description || '',
       completed: req.body.completed || false,
-      createdAt: new Date(),
+      dueDate: req.body.dueDate || null,
+      priority: req.body.priority || 'medium',
+      tags: req.body.tags || [],
+      assignedTo: req.body.assignedTo || null,
       updatedAt: new Date()
     };
   const response = await mongodb
@@ -45,6 +48,10 @@ const createTask = async (req, res) => {
       title: req.body.title,
       description: req.body.description || '',
       completed: req.body.completed || false,
+      dueDate: req.body.dueDate || null,
+      priority: req.body.priority || 'medium',
+      tags: req.body.tags || [],
+      assignedTo: req.body.assignedTo || null,
       createdAt: new Date(),
       updatedAt: new Date()
     };
