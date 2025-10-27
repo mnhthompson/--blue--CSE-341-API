@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
 const tasksController = require('../controllers/tasks');
 
-// GET
-router.get('/', tasksController.getAll);
-router.get('/:id', tasksController.getSingle);
 
 
 function ensureAuthenticated(req, res, next) {
@@ -14,6 +10,10 @@ function ensureAuthenticated(req, res, next) {
   }
   res.status(401).json({ message: "Unauthorized" });
 }
+
+// GET
+router.get('/', tasksController.getAll);
+router.get('/:id', tasksController.getSingle);
 
 
 // POST router.post('/', tasksController.createTask);
