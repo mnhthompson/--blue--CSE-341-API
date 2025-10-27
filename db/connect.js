@@ -1,11 +1,9 @@
 
 const dotenv = require('dotenv');
 dotenv.config();
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient, ObjectId } = require('mongodb');
 
 let _db;
-
-const { MongoClient, ObjectId } = require('mongodb');
 
 const initDb = (callback) => {
   if (_db) {
