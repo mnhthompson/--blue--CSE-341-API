@@ -6,7 +6,7 @@ const getAllUsers = async (req, res) => {
   try {
     const users = await mongodb
     .getDb()
-    collection('users')
+    .collection('users')
     .find()
     .toArray();
     res.status(200).json(users);
