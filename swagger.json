@@ -7,25 +7,16 @@
   },
   "host": "blue-cse-341-api.onrender.com",
   "basePath": "/",
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "paths": {
     "/tasks/": {
       "get": {
         "description": "Get all tasks",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "produces": ["application/json"],
+        "responses": { "200": { "description": "OK" } }
       },
       "post": {
-        "description": "Create a new task",
+        "description": "Create a new task (Requires login)",
         "parameters": [
           {
             "name": "body",
@@ -33,143 +24,81 @@
             "schema": {
               "type": "object",
               "properties": {
-                "title": {
-                  "example": "Finish homework"
-                },
-                "description": {
-                  "example": "Math and Science tasks"
-                },
-                "completed": {
-                  "example": false
-                },
-        "dueDate": {
-                  "example":"2025-11-05T23:59:00.000Z"},
-
-        "priority": {
-                  "example":"high"},
-        "tags": {
-                  "example":["math","science"]},
-        "assignedTo": {
-                  "example":"Marcus Thompson"},
-        "createdAt": {
-                  "example":"2025-10-27T08:00:00.000Z"},
-        "updatedAt": {
-                  "example":"2025-10-27T08:00:00.000Z"}
-
+                "title": { "example": "Finish homework" },
+                "description": { "example": "Math and Science tasks" },
+                "completed": { "example": false },
+                "dueDate": { "example": "2025-11-05T23:59:00.000Z" },
+                "priority": { "example": "high" },
+                "tags": { "example": ["math", "science"] },
+                "assignedTo": { "example": "Marcus Thompson" },
+                "createdAt": { "example": "2025-10-27T08:00:00.000Z" },
+                "updatedAt": { "example": "2025-10-27T08:00:00.000Z" }
               }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
+        },
+        "security": [{"googleOAuth": []}]
       }
     },
     "/tasks/{id}": {
       "get": {
         "description": "Get task by ID",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "produces": ["application/json"],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Task not found"
-          }
+          "200": { "description": "OK" },
+          "404": { "description": "Task not found" }
         }
       },
       "put": {
-        "description": "Update task by ID",
+        "description": "Update task by ID (Requires login)",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
+          { "name": "id", "in": "path", "required": true, "type": "string" },
           {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "title": {
-                  "example": "Finish homework"
-                },
-                "description": {
-                  "example": "Math and Science tasks"
-                },
-                "completed": {
-                  "example": false
-                },
-           "dueDate": {
-                  "example":"2025-11-05T23:59:00.000Z"},
-
-        "priority": {
-                  "example":"high"},
-        "tags": {
-                  "example":["math","science"]},
-        "assignedTo": {
-                  "example":"Marcus Thompson"},
-        "createdAt": {
-                  "example":"2025-10-27T08:00:00.000Z"},
-        "updatedAt": {
-                  "example":"2025-10-27T08:00:00.000Z"}
-
-                
+                "title": { "example": "Finish homework" },
+                "description": { "example": "Math and Science tasks" },
+                "completed": { "example": false },
+                "dueDate": { "example": "2025-11-05T23:59:00.000Z" },
+                "priority": { "example": "high" },
+                "tags": { "example": ["math", "science"] },
+                "assignedTo": { "example": "Marcus Thompson" },
+                "createdAt": { "example": "2025-10-27T08:00:00.000Z" },
+                "updatedAt": { "example": "2025-10-27T08:00:00.000Z" }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Task updated"
-          },
-          "404": {
-            "description": "Task not found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+          "200": { "description": "Task updated" },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Task not found" },
+          "500": { "description": "Internal Server Error" }
+        },
+        "security": [{"googleOAuth": []}]
       },
       "delete": {
-        "description": "Delete task by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "description": "Delete task by ID (Requires login)",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
-          "200": {
-            "description": "Task deleted"
-          },
-          "404": {
-            "description": "Task not found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          },
-        
-         "/users/": {
+          "204": { "description": "Task deleted" },
+          "401": { "description": "Unauthorized" },
+          "404": { "description": "Task not found" },
+          "500": { "description": "Internal Server Error" }
+        },
+        "security": [{"googleOAuth": []}]
+      }
+    },
+    "/users/": {
       "get": {
         "description": "Get all users",
         "produces": ["application/json"],
@@ -183,7 +112,6 @@
                   "oauthId": "",
                   "name": "Marcus Thompson",
                   "email": "marcus@example.com"
-                  
                 }
               ]
             }
@@ -199,10 +127,9 @@
             "schema": {
               "type": "object",
               "properties": {
-                "oauthId": "",
+                "oauthId": { "example": "1234567890-google" },
                 "name": { "example": "Marcus Thompson" },
                 "email": { "example": "marcus@example.com" }
-      
               }
             }
           }
@@ -213,14 +140,12 @@
         }
       }
     },
-
+    
     "/users/{id}": {
       "get": {
         "description": "Get user by ID",
         "produces": ["application/json"],
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "type": "string" }
-        ],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
           "200": {
             "description": "OK",
@@ -233,10 +158,10 @@
               }
             }
           },
-          "404": { "description": "User not found" }},
-              
-          
-        "delete": {
+          "404": { "description": "User not found" }
+        }
+      },
+      "delete": {
         "description": "Delete user by ID",
         "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
@@ -244,9 +169,18 @@
           "404": { "description": "User not found" },
           "500": { "description": "Internal Server Error" }
         }
-       }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "googleOAuth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://accounts.google.com/o/oauth2/auth",
+      "flow": "implicit",
+      "scopes": {
+        "email": "Access to user email",
+        "profile": "Access to user profile"
       }
     }
   }
-      }}}}
-      
+}
