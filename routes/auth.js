@@ -18,7 +18,7 @@ router.get('/google/callback',
     );
 
     // Redirect with token in query
-    res.redirect(`/api-docs/?token=${token}`);
+     res.json({ token });
   }
 );
 
