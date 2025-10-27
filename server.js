@@ -11,8 +11,10 @@ const app = express();
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false, 
+  cookie: { secure: false } 
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
