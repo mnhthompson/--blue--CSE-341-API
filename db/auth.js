@@ -31,16 +31,3 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const db = mongodb.getDb();
-    const user = await db.collection('users').findOne({ _id: new ObjectId(id) });
-    done(null, user);
-  } catch (err) {
-    done(err, null);
-  }
-});
