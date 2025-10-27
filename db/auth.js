@@ -1,6 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongodb = require('./connect');
+const { ObjectId } = require('./connect');
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -20,7 +21,7 @@ passport.use(new GoogleStrategy({
           email: profile.emails[0].value,
         };
         const result = await db.collection('users').insertOne(newUser);
-        user = result.ops[0];
+        user = await db.collection('users').findOne({ _id: result.insertedId });
       }
 
       done(null, user);
@@ -37,7 +38,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   try {
     const db = mongodb.getDb();
-    const user = await db.collection('users').findOne({ _id: new mongodb.ObjectId(id) });
+    const user = await db.collection('users').findOne({ _id: new ObjectId(id) });
     done(null, user);
   } catch (err) {
     done(err, null);

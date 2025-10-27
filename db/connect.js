@@ -5,6 +5,8 @@ const MongoClient = require('mongodb').MongoClient;
 
 let _db;
 
+const { MongoClient, ObjectId } = require('mongodb');
+
 const initDb = (callback) => {
   if (_db) {
     console.log('Db is already initialized!');
@@ -29,4 +31,4 @@ const getDb = () => {
 
 
 
-module.exports = { initDb,getDb,};
+module.exports = { initDb,getDb, ObjectId };
