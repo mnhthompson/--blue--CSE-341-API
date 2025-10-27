@@ -17,17 +17,17 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+app.use('/auth', require('./routes/auth'));
 app.use('/tasks', require('./routes/tasks'));
 app.use('/users', require('./routes/users'));
-app.use('/auth', require('./routes/auth'));
-
-app
-  .use(bodyParser.json())
-  .use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    next();
-  })
-  .use('/', require('./routes'));
+app.use('/', require('./routes'));
 
 mongodb.initDb((err, mongodb) => {
   if (err) {
